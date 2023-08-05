@@ -2,7 +2,11 @@ from django.shortcuts import render
 from django.http import HttpResponse
 from django.views import generic
 
-from home.models import Task, Worker
+from home.models import (
+    Task,
+    Worker,
+    Position
+)
 
 
 def index(request):
@@ -18,6 +22,11 @@ class TaskListView(generic.ListView):
 
 class WorkerListView(generic.ListView):
     model = Worker
+    template_name = "home/worker_list.html"
+
+
+class PositionListView(generic.ListView):
+    model = Position
     template_name = "home/worker_list.html"
 
 
