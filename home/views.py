@@ -17,16 +17,13 @@ def index(request):
 
 class TaskListView(generic.ListView):
     model = Task
-    template_name = "home/task_list.html"
 
 
 class WorkerListView(generic.ListView):
     model = Worker
-    template_name = "home/worker_list.html"
 
 
 class PositionListView(generic.ListView):
     model = Position
-    template_name = "home/worker_list.html"
 
 
