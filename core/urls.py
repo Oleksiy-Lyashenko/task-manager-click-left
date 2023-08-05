@@ -22,6 +22,9 @@ urlpatterns = [
     path('', include('home.urls', namespace="home")),
     path("admin/", admin.site.urls),
     # path("", include('admin_soft.urls'))
+
+
+    path("__debug__/", include("debug_toolbar.urls"))
 ]
 
 urlpatterns += static(
