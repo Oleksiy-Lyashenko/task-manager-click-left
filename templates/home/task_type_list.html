@@ -43,7 +43,10 @@
                         </div>
                       </td>
                       <td>
-                          <a class="btn btn-link text-dark px-0 mb-0" href="#">
+                          <a
+                              class="btn btn-link text-dark px-0 mb-0"
+                              href="{% url "home:task-type-update" pk=task_type.id %}"
+                          >
                             <i class="fas fa-pencil-alt text-dark me-2" aria-hidden="true"></i>
                             Edit
                           </a>

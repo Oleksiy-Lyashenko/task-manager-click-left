@@ -42,7 +42,10 @@
                         </div>
                       </td>
                       <td>
-                          <a class="btn btn-link text-dark px-0 mb-0" href="javascript:;">
+                          <a
+                              class="btn btn-link text-dark px-0 mb-0"
+                              href="{% url "home:position-update" pk=p.id %}"
+                          >
                             <i class="fas fa-pencil-alt text-dark me-2" aria-hidden="true"></i>
                             Edit
                           </a>

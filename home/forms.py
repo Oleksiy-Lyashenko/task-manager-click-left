@@ -8,8 +8,22 @@ class WorkerCreationForm(UserCreationForm):
     class Meta(UserCreationForm.Meta):
         model = Worker
         fields = UserCreationForm.Meta.fields + (
-            "first_name", "last_name", "position",
+            "first_name",
+            "last_name",
+            "position",
         )
+
+
+class WorkerUpdateForm(forms.ModelForm):
+    class Meta:
+        model = Worker
+        fields = [
+            "username",
+            "first_name",
+            "last_name",
+            "email",
+            "position"
+        ]
 
 
 class TaskForm(forms.ModelForm):
