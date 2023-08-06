@@ -1,11 +1,10 @@
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import render
-from django.http import HttpResponse
 from django.urls import reverse_lazy
 from django.views import generic
 
-from home.forms import WorkerCreationForm
+from home.forms import WorkerCreationForm, TaskForm
 from home.models import (
     Task,
     Worker,
@@ -29,6 +28,13 @@ class TaskListView(LoginRequiredMixin, generic.ListView):
 
 class TaskDetailView(LoginRequiredMixin, generic.DetailView):
     model = Task
+
+
+class TaskCreateView(LoginRequiredMixin, generic.CreateView):
+    model = Task
+    form_class = TaskForm
+    template_name = "forms/task_create.html"
+    success_url = reverse_lazy("home:task-list")
 
 
 class WorkerListView(LoginRequiredMixin, generic.ListView):
