@@ -26,15 +26,17 @@
                   {% for worker in worker_list %}
                     <tr>
                       <td>
-                        <div class="d-flex px-2 py-1">
-                          <div>
-                            <img src="{% static 'img/team-3.jpg' %}" class="avatar avatar-sm me-3" alt="user2">
+                        <a href="{% url "home:worker-detail" pk=worker.id %}">
+                          <div class="d-flex px-2 py-1">
+                            <div>
+                              <img src="{% static 'img/team-3.jpg' %}" class="avatar avatar-sm me-3" alt="user2">
+                            </div>
+                            <div class="d-flex flex-column justify-content-center">
+                              <h6 class="mb-0 text-sm">{{ worker.first_name }} {{ worker.last_name }}</h6>
+                              <p class="text-xs text-secondary mb-0">{{ worker.email }}</p>
+                            </div>
                           </div>
-                          <div class="d-flex flex-column justify-content-center">
-                            <h6 class="mb-0 text-sm">{{ worker.first_name }} {{ worker.last_name }}</h6>
-                            <p class="text-xs text-secondary mb-0">{{ worker.email }}</p>
-                          </div>
-                        </div>
+                        </a>
                       </td>
                       <td>
                         <p class="text-xs font-weight-bold mb-0">{{ worker.position }}</p>

@@ -30,6 +30,11 @@ class WorkerListView(generic.ListView):
     queryset = Worker.objects.all().select_related("position")
 
 
+class WorkerDetailView(generic.DetailView):
+    model = Worker
+    queryset = Worker.objects.all().select_related("position")
+
+
 class PositionListView(generic.ListView):
     model = Position
 
