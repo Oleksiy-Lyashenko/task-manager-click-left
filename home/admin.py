@@ -26,22 +26,44 @@ class TaskAdmin(admin.ModelAdmin):
 
 
 @admin.register(Worker)
-class WorkerAdmin(UserAdmin):
+class DriverAdmin(UserAdmin):
     list_display = UserAdmin.list_display + ("position",)
-    search_fields = ["username"]
     fieldsets = UserAdmin.fieldsets + (
-        (("Position of worker", {"fields": ("position",)}),)
+        (("Additional info", {"fields": ("position",)}),)
     )
-    add_fieldsets = UserAdmin.fieldsets + (
+    add_fieldsets = UserAdmin.add_fieldsets + (
         (
             (
                 "Additional info",
                 {
                     "fields": (
+                        "first_name",
+                        "last_name",
                         "position",
                     )
                 },
             ),
         )
     )
+
+
+# @admin.register(Worker)
+# class WorkerAdmin(UserAdmin):
+#     list_display = UserAdmin.list_display + ("position",)
+#     search_fields = ["username"]
+#     fieldsets = UserAdmin.fieldsets + (
+#         (("Position of worker", {"fields": ("position",)}),)
+#     )
+#     add_fieldsets = UserAdmin.fieldsets + (
+#         (
+#             (
+#                 "Additional info",
+#                 {
+#                     "fields": (
+#                         "position",
+#                     )
+#                 },
+#             ),
+#         )
+#     )
 
