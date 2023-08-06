@@ -19,6 +19,7 @@ def index(request):
 class TaskListView(generic.ListView):
     model = Task
     queryset = Task.objects.all().prefetch_related("assignees")
+    paginate_by = 10
 
 
 class TaskDetailView(generic.DetailView):
@@ -28,6 +29,7 @@ class TaskDetailView(generic.DetailView):
 class WorkerListView(generic.ListView):
     model = Worker
     queryset = Worker.objects.all().select_related("position")
+    paginate_by = 10
 
 
 class WorkerDetailView(generic.DetailView):
@@ -37,6 +39,7 @@ class WorkerDetailView(generic.DetailView):
 
 class PositionListView(generic.ListView):
     model = Position
+    paginate_by = 10
 
 
 class TaskTypeListView(generic.ListView):
