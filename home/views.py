@@ -5,7 +5,7 @@ from django.http import HttpResponse
 from django.urls import reverse_lazy
 from django.views import generic
 
-from home.forms import TaskTypeForm
+from home.forms import WorkerCreationForm
 from home.models import (
     Task,
     Worker,
@@ -40,6 +40,13 @@ class WorkerListView(LoginRequiredMixin, generic.ListView):
 class WorkerDetailView(LoginRequiredMixin, generic.DetailView):
     model = Worker
     queryset = Worker.objects.all().select_related("position")
+
+
+class WorkerCreateView(LoginRequiredMixin, generic.CreateView):
+    model = Worker
+    form_class = WorkerCreationForm
+    template_name = "forms/worker_create.html"
+    success_url = reverse_lazy("home:worker-list")
 
 
 class PositionListView(LoginRequiredMixin, generic.ListView):
