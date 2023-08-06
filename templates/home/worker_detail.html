@@ -74,37 +74,65 @@
                   <thead>
                     <tr>
                       <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Task</th>
+                      <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Description</th>
                       <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Task Type</th>
                       <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Priority</th>
                       <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Status</th>
-                      <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Priority</th>
                       <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Change Status</th>
                     </tr>
                   </thead>
                   <tbody>
-                    {% if position_list %}
-                      {% for p in position_list %}
-                        <tr>
-                          <td>
-                            <div class="d-flex px-2 py-1">
-                              <div class="d-flex flex-column justify-content-center">
-                                <h6 class="mb-0 text-sm">{{ p.position }}</h6>
+                    {% if worker.tasks %}
+                      {% for task in worker.tasks.all %}
+                        {% if task.is_completed %}
+                          <tr>
+                            <td>
+                              <div class="d-flex px-2 py-1">
+                                <div class="d-flex flex-column justify-content-center">
+                                  <h6 class="mb-0 text-sm">{{ task.name }}</h6>
+                                </div>
                               </div>
-                            </div>
-                          </td>
-                          <td>
-                              <a class="btn btn-link text-dark px-0 mb-0" href="javascript:;">
-                                <i class="fas fa-pencil-alt text-dark me-2" aria-hidden="true"></i>
-                                Edit
+                            </td>
+                            <td>
+                              <button
+                                  type="button"
+                                  class="btn"
+                                  data-bs-toggle="tooltip"
+                                  data-bs-placement="right"
+                                  title="{{ task.description }}"
+                                  data-container="body"
+                              >
+                                Detail
+                              </button>
+                            </td>
+                            <td class="align-middle text-start">
+                              <span class="text-secondary text-xs font-weight-bold">{{ task.task_type }}</span>
+                            </td>
+                            <td class="align-middle text-center">
+                              {% if task.priority == "Urgent" %}
+                                <span class="text-danger text-xs font-weight-bold">{{ task.priority }}</span>
+                              {% elif task.priority == "High" %}
+                                <span class="text-warning text-xs font-weight-bold">{{ task.priority }}</span>
+                              {% elif task.priority == "Normal" %}
+                                <span class="text-primary text-xs font-weight-bold">{{ task.priority }}</span>
+                              {% elif task.priority == "Low" %}
+                                <span class="text-muted text-xs font-weight-bold">{{ task.priority }}</span>
+                              {% endif %}
+                            </td>
+                            <td class="align-middle text-center">
+                              {% if task.is_completed %}
+                                <span class="badge badge-sm bg-gradient-info">{{ task.is_completed }}</span>
+                              {% else %}
+                                <span class="badge badge-sm bg-gradient-secondary">{{ task.is_completed }}</span>
+                              {% endif %}
+                            </td>
+                            <td class="align-middle text-center text-sm">
+                              <a class="btn btn-link text-primary text-gradient px-0 mb-0" href="javascript:;">
+                                Complete
                               </a>
-                          </td>
-                          <td class="align-middle text-center text-sm">
-                            <a class="btn btn-link text-danger text-gradient px-0 mb-0" href="javascript:;">
-                              <i class="far fa-trash-alt me-2" aria-hidden="true"></i>
-                              Delete
-                            </a>
-                          </td>
-                        </tr>
+                            </td>
+                          </tr>
+                        {% endif %}
                       {% endfor %}
                     {% endif %}
                   </tbody>
@@ -120,7 +148,7 @@
         <div class="col-12">
           <div class="card mb-4">
             <div class="card-header pb-0">
-              <h4>Completed Task</h4>
+              <h4>Completed tasks</h4>
             </div>
             <div class="card-body px-0 pt-0 pb-2">
               <div class="table-responsive p-0">
@@ -128,37 +156,65 @@
                   <thead>
                     <tr>
                       <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Task</th>
+                      <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Description</th>
                       <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Task Type</th>
                       <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Priority</th>
                       <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Status</th>
-                      <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Priority</th>
                       <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Change Status</th>
                     </tr>
                   </thead>
                   <tbody>
-                    {% if position_list %}
-                      {% for p in position_list %}
-                        <tr>
-                          <td>
-                            <div class="d-flex px-2 py-1">
-                              <div class="d-flex flex-column justify-content-center">
-                                <h6 class="mb-0 text-sm">{{ p.position }}</h6>
+                    {% if worker.tasks %}
+                      {% for task in worker.tasks.all %}
+                        {% if task.is_completed is not True %}
+                          <tr>
+                            <td>
+                              <div class="d-flex px-2 py-1">
+                                <div class="d-flex flex-column justify-content-center">
+                                  <h6 class="mb-0 text-sm">{{ task.name }}</h6>
+                                </div>
                               </div>
-                            </div>
-                          </td>
-                          <td>
-                              <a class="btn btn-link text-dark px-0 mb-0" href="javascript:;">
-                                <i class="fas fa-pencil-alt text-dark me-2" aria-hidden="true"></i>
-                                Edit
+                            </td>
+                            <td>
+                              <button
+                                  type="button"
+                                  class="btn"
+                                  data-bs-toggle="tooltip"
+                                  data-bs-placement="right"
+                                  title="{{ task.description }}"
+                                  data-container="body"
+                              >
+                                Detail
+                              </button>
+                            </td>
+                            <td class="align-middle text-start">
+                              <span class="text-secondary text-xs font-weight-bold">{{ task.task_type }}</span>
+                            </td>
+                            <td class="align-middle text-center">
+                              {% if task.priority == "Urgent" %}
+                                <span class="text-danger text-xs font-weight-bold">{{ task.priority }}</span>
+                              {% elif task.priority == "High" %}
+                                <span class="text-warning text-xs font-weight-bold">{{ task.priority }}</span>
+                              {% elif task.priority == "Normal" %}
+                                <span class="text-primary text-xs font-weight-bold">{{ task.priority }}</span>
+                              {% elif task.priority == "Low" %}
+                                <span class="text-muted text-xs font-weight-bold">{{ task.priority }}</span>
+                              {% endif %}
+                            </td>
+                            <td class="align-middle text-center">
+                              {% if task.is_completed %}
+                                <span class="badge badge-sm bg-gradient-info">{{ task.is_completed }}</span>
+                              {% else %}
+                                <span class="badge badge-sm bg-gradient-secondary">{{ task.is_completed }}</span>
+                              {% endif %}
+                            </td>
+                            <td class="align-middle text-center text-sm">
+                              <a class="btn btn-link text-danger text-gradient px-0 mb-0" href="javascript:;">
+                                Undo
                               </a>
-                          </td>
-                          <td class="align-middle text-center text-sm">
-                            <a class="btn btn-link text-danger text-gradient px-0 mb-0" href="javascript:;">
-                              <i class="far fa-trash-alt me-2" aria-hidden="true"></i>
-                              Delete
-                            </a>
-                          </td>
-                        </tr>
+                            </td>
+                          </tr>
+                        {% endif %}
                       {% endfor %}
                     {% endif %}
                   </tbody>
@@ -168,7 +224,6 @@
           </div>
         </div>
       </div>
-        {% include "includes/footer.html" %}
   </div>
   {% endif %}
 

@@ -72,7 +72,15 @@
                       {% endif %}
                     </td>
                     <td class="align-middle text-center">
-                      <span class="text-secondary text-xs font-weight-bold">{{ task.priority }}</span>
+                      {% if task.priority == "Urgent" %}
+                        <span class="text-danger text-xs font-weight-bold">{{ task.priority }}</span>
+                      {% elif task.priority == "High" %}
+                        <span class="text-warning text-xs font-weight-bold">{{ task.priority }}</span>
+                      {% elif task.priority == "Normal" %}
+                        <span class="text-primary text-xs font-weight-bold">{{ task.priority }}</span>
+                      {% elif task.priority == "Low" %}
+                        <span class="text-muted text-xs font-weight-bold">{{ task.priority }}</span>
+                      {% endif %}
                     </td>
                     <td class="align-middle text-center">
                       <span class="text-secondary text-xs font-weight-bold">
