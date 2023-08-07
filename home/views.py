@@ -81,16 +81,17 @@ class WorkerDetailView(LoginRequiredMixin, generic.DetailView):
         # Transform queryset to list that counting of tasks
         tasks = list(worker.tasks.all().values())
 
-        count_of_completed_tasks = 0
+        if tasks:
+            count_of_completed_tasks = 0
 
-        for task in tasks:
-            if task["is_completed"]:
-                count_of_completed_tasks += 1
+            for task in tasks:
+                if task["is_completed"]:
+                    count_of_completed_tasks += 1
 
-        progress = round(count_of_completed_tasks / len(tasks) * 100)
+            progress = round(count_of_completed_tasks / len(tasks) * 100)
+            contex["progress"] = progress
 
         contex["num_of_tasks"] = len(tasks)
-        contex["progress"] = progress
 
         return contex
 
