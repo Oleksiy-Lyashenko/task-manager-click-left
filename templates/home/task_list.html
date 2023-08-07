@@ -19,6 +19,7 @@
               </div>
             </div>
           </div>
+          {% include "includes/search.html" %}
         </div>
         <div class="card-body px-0 pt-0 pb-2">
           <div class="table-responsive p-0">
@@ -50,18 +51,17 @@
                     </td>
                     <td>
                       <div class="avatar-group mt-2">
-                        <a href="javascript:;" class="avatar avatar-sm rounded-circle" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Ryan Tompson">
-                          <img src="{% static 'img/team-1.jpg' %}" alt="team1">
-                        </a>
-                        <a href="javascript:;" class="avatar avatar-sm rounded-circle" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Romina Hadid">
-                          <img src="{% static 'img/team-2.jpg' %}" alt="team2">
-                        </a>
-                        <a href="javascript:;" class="avatar avatar-sm rounded-circle" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Alexander Smith">
-                          <img src="{% static 'img/team-3.jpg' %}" alt="team3">
-                        </a>
-                        <a href="javascript:;" class="avatar avatar-sm rounded-circle" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Jessica Doe">
-                          <img src="{% static 'img/team-4.jpg' %}" alt="team4">
-                        </a>
+                        {% for worker in task.assignees.all %}
+                          <a
+                              href="{% url "home:worker-detail" pk=worker.id %}"
+                              class="avatar avatar-sm rounded-circle"
+                              data-bs-toggle="tooltip"
+                              data-bs-placement="bottom"
+                              title="{{ worker.first_name }} {{ worker.last_name }}"
+                          >
+                            <img src="{% static 'img/default-user.jpg' %}" alt="team1">
+                          </a>
+                        {% endfor %}
                       </div>
                     </td>
                     <td class="align-middle text-center text-sm">
