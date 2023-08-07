@@ -1,5 +1,7 @@
+from django.contrib.auth import get_user_model
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.http import HttpResponseRedirect
 from django.shortcuts import render
 from django.urls import reverse_lazy
 from django.views import generic
@@ -44,6 +46,19 @@ class TaskUpdateView(LoginRequiredMixin, generic.UpdateView):
     success_url = reverse_lazy("home:task-list")
 
 
+@login_required
+def toggle_complete_to_task(request, worker_id, task_id):
+    task = Task.objects.get(id=task_id)
+    if task.is_completed:  # probably could check if car exists
+        task.is_completed = False
+    else:
+        task.is_completed = True
+
+    task.save()
+
+    return HttpResponseRedirect(reverse_lazy("home:worker-detail", args=[worker_id]))
+
+
 class WorkerListView(LoginRequiredMixin, generic.ListView):
     model = Worker
     queryset = Worker.objects.all().select_related("position")
@@ -53,6 +68,31 @@ class WorkerListView(LoginRequiredMixin, generic.ListView):
 class WorkerDetailView(LoginRequiredMixin, generic.DetailView):
     model = Worker
     queryset = Worker.objects.all().select_related("position")
+
+    def get_context_data(self, *, object_list=None, **kwargs):
+        contex = super(WorkerDetailView, self).get_context_data(**kwargs)
+
+        # Transform path to array
+        path_to_arr = self.request.path.split('/')
+        # Get worker id from array
+        worker_id = path_to_arr[len(path_to_arr) - 1]
+        # Get worker from db
+        worker = get_user_model().objects.get(id=worker_id)
+        # Transform queryset to list that counting of tasks
+        tasks = list(worker.tasks.all().values())
+
+        count_of_completed_tasks = 0
+
+        for task in tasks:
+            if task["is_completed"]:
+                count_of_completed_tasks += 1
+
+        progress = round(count_of_completed_tasks / len(tasks) * 100)
+
+        contex["num_of_tasks"] = len(tasks)
+        contex["progress"] = progress
+
+        return contex
 
 
 class WorkerCreateView(LoginRequiredMixin, generic.CreateView):
