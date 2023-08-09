@@ -60,23 +60,70 @@ class ModelsTests(TestCase):
         self.assertEqual(task.description, description)
         self.assertEqual(task.deadline, deadline)
 
-    def test_deadline_in_task_is_not_valid(self):
+    def test_deadline_in_task_is_valid_with_future_data(self):
         task_type = TaskType.objects.create(name="Features")
+        worker = get_user_model().objects.create_user(
+            username="test",
+            password="pass12345678",
+            first_name="Test first",
+            last_name="Test last"
+        )
+        workers = get_user_model().objects.all()
 
         name = "Create page"
         description = "Create an additional page to home site"
-        deadline = datetime.datetime(2022, 8, 25, 16, 30)
+        deadline = datetime.datetime(2023, 8, 25)
+        priority = "Normal"
 
         task = TaskForm(
             data={
                 "name": name,
                 "description": description,
                 "deadline": deadline,
-                "task_type": task_type
+                "priority": priority,
+                "task_type": task_type,
+                "assignees": workers
+            }
+        )
+
+        if not task.is_valid():
+            print(task.errors)
+
+        self.assertTrue(task.is_valid())
+
+    def test_deadline_in_task_is_not_valid_with_past_date(self):
+        task_type = TaskType.objects.create(name="Features")
+        worker = get_user_model().objects.create_user(
+            username="test",
+            password="pass12345678",
+            first_name="Test first",
+            last_name="Test last"
+        )
+        workers = get_user_model().objects.all()
+
+        name = "Create page"
+        description = "Create an additional page to home site"
+        deadline = datetime.datetime(2022, 8, 25)
+        priority = "Normal"
+
+        task = TaskForm(
+            data={
+                "name": name,
+                "description": description,
+                "deadline": deadline,
+                "priority": priority,
+                "task_type": task_type,
+                "assignees": workers
             }
         )
 
         self.assertFalse(task.is_valid())
 
-
-
+    def test_get_absolute_url_in_worker(self):
+        worker = get_user_model().objects.create_user(
+            username="test",
+            password="pass12345678",
+            first_name="Test first",
+            last_name="Test last"
+        )
+        self.assertEquals(worker.get_absolute_url(), "/worker/1")
