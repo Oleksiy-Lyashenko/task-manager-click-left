@@ -42,7 +42,7 @@ class TaskListView(LoginRequiredMixin, generic.ListView):
     def get_queryset(self):
         queryset = Task.objects.all().prefetch_related("assignees")
 
-        form = TaskSearchForm(self.request.GET)
+        form = TaskSearchForm(data=self.request.GET)
 
         if form.is_valid():
             return queryset.filter(
