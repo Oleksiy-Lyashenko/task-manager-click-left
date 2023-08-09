@@ -38,7 +38,7 @@
                   {% for worker in worker_list %}
                     <tr>
                       <td>
-                        <a href="{% url "home:worker-detail" pk=worker.id %}">
+                        <a href="{{ worker.get_absolute_url }}">
                           <div class="d-flex px-2 py-1">
                             <div>
                               <img src="{% static 'img/default-user.jpg' %}" class="avatar avatar-sm me-3" alt="user2">
