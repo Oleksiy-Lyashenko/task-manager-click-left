@@ -62,13 +62,15 @@ class ModelsTests(TestCase):
 
     def test_deadline_in_task_is_valid_with_future_data(self):
         task_type = TaskType.objects.create(name="Features")
-        worker = get_user_model().objects.create_user(
+        get_user_model().objects.create_user(
             username="test",
             password="pass12345678",
             first_name="Test first",
             last_name="Test last"
         )
-        workers = get_user_model().objects.all()
+        worker = get_user_model().objects.get(
+            username="test"
+        )
 
         name = "Create page"
         description = "Create an additional page to home site"
@@ -82,12 +84,11 @@ class ModelsTests(TestCase):
                 "deadline": deadline,
                 "priority": priority,
                 "task_type": task_type,
-                "assignees": workers
+                "assignees": worker
             }
         )
 
-        if not task.is_valid():
-            print(task.errors)
+        a = task.errors
 
         self.assertTrue(task.is_valid())
 
@@ -113,7 +114,7 @@ class ModelsTests(TestCase):
                 "deadline": deadline,
                 "priority": priority,
                 "task_type": task_type,
-                "assignees": workers
+                "assignees": worker
             }
         )
 

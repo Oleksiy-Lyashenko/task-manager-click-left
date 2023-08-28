@@ -59,9 +59,8 @@ class WorkerSearchForm(forms.Form):
 
 class TaskForm(forms.ModelForm):
 
-    assignees = forms.ModelMultipleChoiceField(
+    assignees = forms.ModelChoiceField(
         queryset=get_user_model().objects.all(),
-        widget=forms.CheckboxSelectMultiple,
     )
     deadline = forms.DateField(
         input_formats=["%Y-%m-%d %H:%M"],
