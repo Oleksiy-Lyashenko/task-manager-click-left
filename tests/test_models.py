@@ -62,17 +62,19 @@ class ModelsTests(TestCase):
 
     def test_deadline_in_task_is_valid_with_future_data(self):
         task_type = TaskType.objects.create(name="Features")
-        worker = get_user_model().objects.create_user(
+        get_user_model().objects.create_user(
             username="test",
             password="pass12345678",
             first_name="Test first",
             last_name="Test last"
         )
-        workers = get_user_model().objects.all()
+        worker = get_user_model().objects.get(
+            username="test"
+        )
 
         name = "Create page"
         description = "Create an additional page to home site"
-        deadline = datetime.datetime(2023, 8, 25)
+        deadline = datetime.datetime(2025, 8, 25)
         priority = "Normal"
 
         task = TaskForm(
@@ -82,12 +84,11 @@ class ModelsTests(TestCase):
                 "deadline": deadline,
                 "priority": priority,
                 "task_type": task_type,
-                "assignees": workers
+                "assignees": worker
             }
         )
 
-        if not task.is_valid():
-            print(task.errors)
+        a = task.errors
 
         self.assertTrue(task.is_valid())
 
@@ -113,7 +114,7 @@ class ModelsTests(TestCase):
                 "deadline": deadline,
                 "priority": priority,
                 "task_type": task_type,
-                "assignees": workers
+                "assignees": worker
             }
         )
 
@@ -126,4 +127,6 @@ class ModelsTests(TestCase):
             first_name="Test first",
             last_name="Test last"
         )
-        self.assertEquals(worker.get_absolute_url(), "/worker/1")
+
+        url = worker.get_absolute_url()
+        self.assertEquals(worker.get_absolute_url(), "/workers/1")

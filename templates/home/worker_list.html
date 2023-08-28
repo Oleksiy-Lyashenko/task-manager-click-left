@@ -29,7 +29,7 @@
                   <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">worker</th>
                   <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">position</th>
                   <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Total task assigned to</th>
-                  <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">progress</th>
+                  <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Count of tasks</th>
                   <th class="text-secondary opacity-7"></th>
                 </tr>
               </thead>
@@ -44,8 +44,16 @@
                               <img src="{% static 'img/default-user.jpg' %}" class="avatar avatar-sm me-3" alt="user2">
                             </div>
                             <div class="d-flex flex-column justify-content-center">
-                              <h6 class="mb-0 text-sm">{{ worker.first_name }} {{ worker.last_name }}</h6>
-                              <p class="text-xs text-secondary mb-0">{{ worker.email }}</p>
+                              {% if not worker.first_name and not worker.last_name %}
+                                <h6 class="mb-0 text-sm">Anonymous User</h6>
+                              {% else %}
+                                <h6 class="mb-0 text-sm">{{ worker.first_name }} {{ worker.last_name }}</h6>
+                              {% endif %}
+                              {% if worker.email %}
+                                <p class="text-xs text-secondary mb-0">{{ worker.email }}</p>
+                              {% else %}
+                                <p class="text-xs text-secondary mb-0">Doesn't have email</p>
+                              {% endif %}
                             </div>
                           </div>
                         </a>
@@ -54,10 +62,24 @@
                         <p class="text-xs font-weight-bold mb-0">{{ worker.position }}</p>
                       </td>
                       <td class="align-middle text-center text-sm">
-                        <span class="badge badge-sm bg-gradient-secondary">{{ worker.assigned }}</span>
+                        <div class="avatar-group mt-2">
+                          {% for task in worker.tasks.all %}
+                            <a
+                                href="{% url "home:task-detail" pk=task.id %}"
+                                class="avatar avatar-sm rounded-circle"
+                                data-bs-toggle="tooltip"
+                                data-bs-placement="bottom"
+                                title="{{ task.name }}"
+                            >
+                              <img src="{% static 'img/task_img.png' %}" alt="team1">
+                            </a>
+                          {% empty %}
+                            <span>Not yet</span>
+                          {% endfor %}
+                        </div>
                       </td>
                       <td class="align-middle text-center">
-                        <span class="text-secondary text-xs font-weight-bold">11/01/19</span>
+                        <span class="text-secondary text-xs font-weight-bold">{{ worker.tasks.count }}</span>
                       </td>
                       <td class="align-middle">
                         <a

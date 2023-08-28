@@ -19,8 +19,6 @@ from home.models import (
 
 @login_required
 def index(request):
-
-    # Page from the theme 
     return render(request, 'pages/index.html')
 
 
@@ -149,12 +147,12 @@ class WorkerUpdateView(LoginRequiredMixin, generic.UpdateView):
     model = Worker
     form_class = WorkerUpdateForm
     template_name = "forms/position_form.html"
-    success_url = reverse_lazy("home:worker-list")
 
 
 class PositionListView(LoginRequiredMixin, generic.ListView):
     model = Position
     paginate_by = 10
+    context_object_name = "position_list"
 
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super(PositionListView, self).get_context_data(**kwargs)

@@ -5,19 +5,25 @@ from django.contrib.auth import get_user_model
 from django.contrib.auth.forms import UserCreationForm
 from django.core.exceptions import ValidationError
 
-from home.models import Worker, Task
+from home.models import Worker, Task, Position
 
 
 class WorkerCreationForm(UserCreationForm):
-    # username = forms.CharField(
-    #     max_length=83,
-    #     required=True
-    # )
-    #
-    # first_name = forms.CharField(
-    #     max_length=83,
-    #     required=True
-    # )
+    username = forms.CharField(
+        max_length=83,
+        required=True
+    )
+
+    first_name = forms.CharField(
+        max_length=83,
+        required=True
+    )
+
+    position = forms.ModelChoiceField(
+        queryset=Position.objects.all(),
+        to_field_name="position",
+        required=False
+    )
 
     class Meta(UserCreationForm.Meta):
         model = Worker
@@ -53,9 +59,8 @@ class WorkerSearchForm(forms.Form):
 
 class TaskForm(forms.ModelForm):
 
-    assignees = forms.ModelMultipleChoiceField(
+    assignees = forms.ModelChoiceField(
         queryset=get_user_model().objects.all(),
-        widget=forms.CheckboxSelectMultiple,
     )
     deadline = forms.DateField(
         input_formats=["%Y-%m-%d %H:%M"],
