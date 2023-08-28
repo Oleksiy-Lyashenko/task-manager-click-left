@@ -119,4 +119,34 @@ class PrivateViewTest(TestCase):
         )
         self.assertTemplateUsed("home/task_list.html")
 
+    def test_button_complete_task_in_worker_detail(self):
+        task_type = TaskType.objects.create(name="Features")
+        position = Position.objects.create(position="QA")
 
+        task = Task.objects.create(
+            name="Create Page",
+            description="Create home page to site",
+            deadline=datetime(2024, 8, 25),
+            is_completed=False,
+            priority="Normal",
+            task_type=task_type
+        )
+
+        worker = get_user_model().objects.create_user(
+            username="test1",
+            password="pass12345678",
+            first_name="Test first 1",
+            last_name="Test last 1",
+            position=position
+        )
+
+        worker.tasks.add(task)
+
+        self.client.get(reverse("home:toggle-task-complete", kwargs={
+            "worker_id": str(worker.id),
+            "task_id": str(task.id)
+        }))
+
+        completed_task = Task.objects.get(name="Create Page")
+
+        self.assertTrue(completed_task.is_completed)
