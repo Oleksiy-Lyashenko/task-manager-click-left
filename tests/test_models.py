@@ -72,7 +72,7 @@ class ModelsTests(TestCase):
 
         name = "Create page"
         description = "Create an additional page to home site"
-        deadline = datetime.datetime(2023, 8, 25)
+        deadline = datetime.datetime(2025, 8, 25)
         priority = "Normal"
 
         task = TaskForm(
@@ -126,4 +126,6 @@ class ModelsTests(TestCase):
             first_name="Test first",
             last_name="Test last"
         )
-        self.assertEquals(worker.get_absolute_url(), "/worker/1")
+
+        url = worker.get_absolute_url()
+        self.assertEquals(worker.get_absolute_url(), "/workers/1")

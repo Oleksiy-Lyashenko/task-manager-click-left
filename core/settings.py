@@ -138,7 +138,7 @@ AUTH_PASSWORD_VALIDATORS = [
 
 AUTH_USER_MODEL = "home.Worker"
 
-LOGIN_REDIRECT_URL = "/task/"
+LOGIN_REDIRECT_URL = "/tasks/"
 
 INTERNAL_IPS = [
     "127.0.0.1",

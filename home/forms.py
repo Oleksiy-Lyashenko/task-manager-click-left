@@ -5,19 +5,25 @@ from django.contrib.auth import get_user_model
 from django.contrib.auth.forms import UserCreationForm
 from django.core.exceptions import ValidationError
 
-from home.models import Worker, Task
+from home.models import Worker, Task, Position
 
 
 class WorkerCreationForm(UserCreationForm):
-    # username = forms.CharField(
-    #     max_length=83,
-    #     required=True
-    # )
-    #
-    # first_name = forms.CharField(
-    #     max_length=83,
-    #     required=True
-    # )
+    username = forms.CharField(
+        max_length=83,
+        required=True
+    )
+
+    first_name = forms.CharField(
+        max_length=83,
+        required=True
+    )
+
+    position = forms.ModelChoiceField(
+        queryset=Position.objects.all(),
+        to_field_name="position",
+        required=False
+    )
 
     class Meta(UserCreationForm.Meta):
         model = Worker
