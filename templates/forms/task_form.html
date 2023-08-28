@@ -4,7 +4,7 @@
 {% block content %}
     <div class="container-fluid py-4">
       <div class="row">
-        <h3>Create Position</h3>
+        <h3>{{ object|yesno:"Update,Create" }} task</h3>
         <div class="col-8">
           <div class="card-body px-0 pt-0 pb-2">
               <form action="" method="post" novalidate>
