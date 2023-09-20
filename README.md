@@ -2,6 +2,9 @@
 
 App for managing tasks and meeting deadlines.
 
+Username: test
+Password: test1234
+
 ## Features
 
 * Authentication functionality for Worker/User
