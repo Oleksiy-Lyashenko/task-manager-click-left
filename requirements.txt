@@ -1,8 +1,15 @@
-django
-gunicorn
-python-dotenv
-whitenoise
+asgiref==3.7.2
+django==4.2.4
 django-admin-soft-dashboard==1.0.12
+django-debug-toolbar==4.1.0
+gunicorn==21.2.0
+packaging==23.1
+python-dotenv==1.0.0
+setuptools==65.5.1
+sqlparse==0.4.4
+wheel==0.38.4
+whitenoise==6.5.0
+
 
 # psycopg2-binary
 # mysqlclient
