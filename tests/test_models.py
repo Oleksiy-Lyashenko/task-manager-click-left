@@ -74,7 +74,7 @@ class ModelsTests(TestCase):
 
         name = "Create page"
         description = "Create an additional page to home site"
-        deadline = datetime.datetime(2025, 8, 25)
+        deadline = datetime.datetime(2025, 8, 25, 0, 0, 0)
         priority = "Normal"
 
         task = TaskForm(
@@ -84,7 +84,7 @@ class ModelsTests(TestCase):
                 "deadline": deadline,
                 "priority": priority,
                 "task_type": task_type,
-                "assignees": worker
+                "assignees": [worker]
             }
         )
 

@@ -1,6 +1,7 @@
 import datetime
 
 from django import forms
+from django.utils import timezone
 from django.contrib.auth import get_user_model
 from django.contrib.auth.forms import UserCreationForm
 from django.core.exceptions import ValidationError
@@ -59,13 +60,17 @@ class WorkerSearchForm(forms.Form):
 
 class TaskForm(forms.ModelForm):
 
-    assignees = forms.ModelChoiceField(
+    assignees = forms.ModelMultipleChoiceField(
         queryset=get_user_model().objects.all(),
+        widget=forms.CheckboxSelectMultiple,
+        required=False
     )
-    deadline = forms.DateField(
-        input_formats=["%Y-%m-%d %H:%M"],
-        widget=forms.TextInput(
-            attrs={'placeholder': '2000-01-01 16:00'}
+    deadline = forms.DateTimeField(
+        widget=forms.DateInput(
+            attrs={
+                "class": 'form-control',
+                "type": "date"
+            }
         ),
         required=True
     )
@@ -88,9 +93,9 @@ class TaskUpdateForm(forms.ModelForm):
 
 
 def validate_deadline(
-    deadline: datetime.date,
+    deadline: datetime.datetime,
 ):
-    if deadline < datetime.date.today():
+    if deadline < timezone.now():
         raise ValidationError("The date cannot be in the past!")
 
     return deadline
