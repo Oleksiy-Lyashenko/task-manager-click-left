@@ -125,7 +125,7 @@ else:
 db_from_env = dj_database_url.config(conn_max_age=500)
 DATABASES["default"].update(db_from_env)
 
-
+DATABASE_URL = 'postgres://dnaxowom:k1Er1LF9bXZpcWgOHWfjbWoQb0BF4SeJ@snuffleupagus.db.elephantsql.com/dnaxowom'
 
 # Password validation
 # https://docs.djangoproject.com/en/4.1/ref/settings/#auth-password-validators
