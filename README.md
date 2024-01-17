@@ -2,9 +2,13 @@
 
 App for managing tasks and meeting deadlines.
 
+# Check it out!
+
+[Task manager deployed to Render](https://task-list-ossg.onrender.com/)
+
 ```shell
-username: test
-password: test1234
+username: tester
+password: test12345
 ```
 
 ## Features
